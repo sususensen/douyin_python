@@ -1,8 +1,10 @@
 class commentDetail:
-    icon=''
+    commentIconUrl=''
     uesername=''
     commentTime=''
     supportCount=''
     commentContext=''
-    def __int__(self):
-        pass
+    commentContextIconUrl=[]
+
+    def __int__(self,title):
+        self.title=title

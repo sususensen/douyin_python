@@ -8,49 +8,41 @@ from selenium.webdriver.common.by import By
 from douyin.config.Driver import Driver
 from lxml import html, etree
 
+from douyin.pojo.commentDetail import commentDetail
+from douyin.pojo.videoDetail import videoDetail
+from douyin.util.getComment import getComment
+from douyin.util.getFromUrl import getFromUrl
+from douyin.util.saveFromGet import saveFromGet
+
 
 class climb001:
-    #视频播放链接
-    url=''
-    def __int__(self):
-        self.driver=Driver.get_driver()
-
-    def write_down(self):
-        self.driver.get(self.url)
+    #为beautifulsoup使用写下源码.html文件
+    def write_down(self,url,driver,filename):
+        driver.get(url)
         time.sleep(2)
-        data = self.driver.page_source
-        fh = open("dongman.html", "w", encoding="utf-8")
+        data = driver.page_source
+        fh = open(filename, "w", encoding="utf-8")
         fh.write(data)
+        time.sleep(2)
         fh.close()
-    def set_url(self,url):
-        self.url=url
-    def get_video(self,html_new):
-        soup = html_new.find(name="xg-video-container")
-        source = soup.find("source")
-        videourl = "https:" + source.get("src")
-        video = requests.get(videourl).content
-        return video
-
-    def get_content(self,html_new):
-        #后续补全
-        pass
-
-    def save_video(self,video):
-        try:
-            # 打开文件夹,将图片存入
-            with open('video/' + '1.mp4', 'wb') as f:
-
-                f.write(video)
-                print(video)
-                # 更改图片名,防止新下载的图片覆盖原图片
-            # 若上述代码执行报错,则执行此部分代码
-        except Exception as err:
-            # 跳过错误代码
-            pass
 
 if __name__ == "__main__":
+
+    driver=Driver().get_driver()
     climb=climb001()
-    climb.set_url("https://www.douyin.com/search/%E6%8A%96%E9%9F%B3%E7%99%BE%E5%88%86%E5%A4%A7%E6%88%98?aid=111077d9-dc34-4e50-be5a-a38de14a850e&publish_time=0&sort_type=0&source=recom_search&type=general")
+
+    url="https://www.douyin.com/video/7263308382231137577"
+    climb.write_down(url,driver,"dongman.html")
+
     html_new = BeautifulSoup(open('dongman.html', encoding='utf-8'), features='html.parser')
-    video=climb.get_video(html_new)
-    climb.save_video(video)
+    getUtil=getFromUrl()
+    saveUtil=saveFromGet()
+    videoDe=getUtil.get_video(html_new)
+    video = requests.get(videoDe.url).content
+    saveUtil.save_video(video)
+
+    videoIcon=requests.get(videoDe.iconUrl).content
+    saveUtil.save_video_icon(videoIcon)
+    comments=getComment().get_comment(html_new)
+
+
