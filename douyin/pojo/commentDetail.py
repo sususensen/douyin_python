@@ -6,5 +6,10 @@ class commentDetail:
     commentContext=''
     commentContextIconUrl=[]
 
-    def __int__(self,title):
-        self.title=title
+    def __int__(self, commentIconUrl, uesername,commentTime,supportCount,commentContext,commentContextIconUrl):
+        self.commentIconUrl=commentIconUrl
+        self.uesername=uesername
+        self.commentTime=commentTime
+        self.supportCount=supportCount
+        self.commentContext=commentContext
+        self.commentContextIconUrl=commentContextIconUrl
