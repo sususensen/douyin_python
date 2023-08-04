@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+from douyin.config.DataBase import DataBase
 from douyin.config.Driver import Driver
 from lxml import html, etree
 
@@ -44,5 +45,10 @@ if __name__ == "__main__":
     videoIcon=requests.get(videoDe.iconUrl).content
     saveUtil.save_video_icon(videoIcon)
     comments=getComment().get_comment(html_new)
+    db=DataBase()
+    for comment in comments:
+        db.insert_comment_data(comment)
+
+
 
 

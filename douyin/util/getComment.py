@@ -12,7 +12,7 @@ class getComment:
         for comment in commentList:
             commentDe = commentDetail()
             commentDe.commentIconUrl="https:"+comment.find(class_="V3cGkKvu comment-item-avatar").find("a").get("href")
-            commentDe.uesername=helpMe.get_lowest_span(comment,"Nu66P_ba NCRZnxVF").text
+            commentDe.username=helpMe.get_lowest_span(comment,"Nu66P_ba NCRZnxVF").text
             tempRoad=comment.find(class_="VD5Aa1A1")
             context=helpMe.get_lowest_span(tempRoad,"Nu66P_ba")
             commentDe.commentContext=context.text

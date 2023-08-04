@@ -13,17 +13,15 @@ VPN_IP = "127.0.0.1"
 VPN_PORT = "7890"
 class DataBase:
     #初始化连接数据库db01
-    def __init__(self, host, port, user, passwd, database, charset):
-        self.conn = pymysql.connect(host=host, user=user, password=passwd, database=database, port=port,
-                                    charset=charset)
+    def __init__(self):
+        self.conn = pymysql.connect(host=DB_HOST, user=DB_USER, password=DB_PASSWORD, database=DB_DATABASE, port=DB_PORT,
+                                    charset=DB_CHARSET)
         self.cursor = self.conn.cursor(DictCursor)
 
-    def insert_data(self):
-        sql = "insert into commentDetail values ('https://baidu.com','苏森','2023-8-4','80','第一次测试，希望成功','百度一下，你就知道')"  # 这种写法自增字段和隐藏字段都要写出来
-        self.cursor.execute(sql);
+    def insert_comment_data(self, comment):
+        sql = "INSERT INTO commentDetail (commentIconUrl, username, commentTime, supportCount, commentContext, commentContextIconUrl) VALUES (%s, %s, %s, %s, %s, %s)"
+        data = (str(comment.commentIconUrl), str(comment.username), str(comment.commentTime), str(comment.supportCount),
+                str(comment.commentContext), str(comment.commentContextIconUrl))
+
+        self.cursor.execute(sql, data)
         self.conn.commit()
-
-
-database=DataBase(DB_HOST,DB_PORT,DB_USER,DB_PASSWORD,DB_DATABASE,DB_CHARSET)
-comment=commentDetail().__int__('https://baidu.com',"苏森","2023-8-4",'80',"第一次测试，希望成功","百度一下，你就知道")
-database.insert_data()
