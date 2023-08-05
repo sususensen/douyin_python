@@ -1,4 +1,4 @@
-class saveFromGet:
+class saveUtil:
     def save_video(self,video):
         try:
             with open('video/' + '1.mp4', 'wb') as f:
